@@ -5,8 +5,13 @@ import google.generativeai as genai
 from reportlab.lib.pagesizes import letter
 from reportlab.pdfgen import canvas
 
-# Hardcoded Gemini API Key
-GEMINI_API_KEY = "AIzaSyDMI78PYdgoeFnVEE7thOFThN-QGamiDzY"  # Replace with your actual key
+# Load API key securely from Streamlit secrets
+GEMINI_API_KEY = st.secrets["GEMINI_API_KEY"]
+
+if not GEMINI_API_KEY:
+    st.error("API Key not found! Please set it in Streamlit secrets.")
+    st.stop()
+
 genai.configure(api_key=GEMINI_API_KEY)
 
 def extract_colored_comments_from_pdf(uploaded_file):
@@ -27,9 +32,8 @@ def extract_colored_comments_from_pdf(uploaded_file):
 
     return "\n".join(extracted_text)
 
-
 def process_text_with_gemini(text):
-    """Enhance extracted comments using AI."""
+    """Enhance extracted comments using Gemini AI."""
     prompt = f"""
     You are an AI assistant helping to refine and summarize extracted comments.
     - Summarize the text while keeping all key details.
@@ -43,7 +47,6 @@ def process_text_with_gemini(text):
     response = model.generate_content(prompt)
     
     return response.text if response.text else "No response from AI."
-
 
 def generate_pdf(text):
     """Create a PDF with extracted/processed text."""
@@ -64,15 +67,14 @@ def generate_pdf(text):
     pdf_buffer.seek(0)
     return pdf_buffer
 
-
 # Streamlit UI
-st.title("AI Based Comment Extractor Powered by KPMG")
+st.title("AI-Based Comment Extractor Powered by KPMG")
 st.write("Upload a PDF, extract **colored comments**, process them with AI, and download the refined content.")
 
 uploaded_file = st.file_uploader("Upload your PDF", type=["pdf"])
 
 if uploaded_file:
-    # User choice: Raw Extraction or Gemini Processing
+    # User choice: Raw Extraction or AI Processed Output
     extraction_method = st.radio("Choose Extraction Method:", ("Raw Extraction", "AI Processed Output"))
 
     with st.spinner("Extracting colored comments..."):
@@ -83,7 +85,7 @@ if uploaded_file:
         st.write(extracted_text)
 
         # Process with Gemini if selected
-        if extraction_method == "Gemini Processed Output":
+        if extraction_method == "AI Processed Output":
             with st.spinner("Processing with Gemini AI..."):
                 extracted_text = process_text_with_gemini(extracted_text)
             st.subheader("Refined Comments (Gemini Output)")
