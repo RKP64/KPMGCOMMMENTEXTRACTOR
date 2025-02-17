@@ -1,0 +1,10 @@
+
+streamlit
+pymupdf  
+reportlab  
+google-cloud-vision  # Google Cloud Vision API for OCR
+requests  # Sending API requests to Google Vision
+google-auth  # For Google Cloud authentication
+google-auth-oauthlib
+google-auth-httplib2
+google-cloud-storage  # If you plan to store PDFs in GCS
