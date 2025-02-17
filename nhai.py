@@ -88,7 +88,7 @@ if uploaded_file:
         if extraction_method == "AI Processed Output":
             with st.spinner("Processing with Gemini AI..."):
                 extracted_text = process_text_with_gemini(extracted_text)
-            st.subheader("Refined Comments (Gemini Output)")
+            st.subheader("Refined Comments (AI Output)")
             st.write(extracted_text)
 
         # Generate final PDF
