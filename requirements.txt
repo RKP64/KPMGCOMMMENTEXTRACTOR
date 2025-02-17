@@ -8,3 +8,4 @@ google-auth  # For Google Cloud authentication
 google-auth-oauthlib
 google-auth-httplib2
 google-cloud-storage  # If you plan to store PDFs in GCS
+google-generativeai
