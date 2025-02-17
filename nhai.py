@@ -33,7 +33,7 @@ def extract_colored_comments_from_pdf(uploaded_file):
     return "\n".join(extracted_text)
 
 def process_text_with_gemini(text):
-    """Enhance extracted comments using Gemini AI."""
+    """Enhance extracted comments using AI."""
     prompt = f"""
     You are an AI assistant helping to refine and summarize extracted comments.
     - Summarize the text while keeping all key details.
@@ -87,7 +87,7 @@ if uploaded_file:
         # Process with Gemini if selected
         if extraction_method == "AI Processed Output":
             with st.spinner("Processing with Gemini AI..."):
-                extracted_text = process_text_with_gemini(extracted_text)
+                extracted_text = process_text_with_AI(extracted_text)
             st.subheader("Refined Comments (AI Output)")
             st.write(extracted_text)
 
